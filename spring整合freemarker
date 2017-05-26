@@ -1,0 +1,11 @@
+//spring 整合 freemarker 配置文件配置
+<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+    <property name="templateLoaderPath" value="/WEB-INF/freemarker/"/>
+    <property name="freemarkerVariables">
+        <map>
+            <entry key="xml_escape" value-ref="fmXmlEscape"/>
+        </map>
+    </property>
+</bean>
+
+<bean id="fmXmlEscape" class="freemarker.template.utility.XmlEscape"/>
