@@ -1,0 +1,22 @@
+//springmvc restful 风格文件下载
+@RequestMapping(value = "/download/{id}" , method = RequestMethod.GET)
+	    public @ResponseBody HttpEntity<byte[]> download(@PathVariable Long id) throws IOException {
+	    	
+	    	//文件下载路径
+	    	String path ;
+        
+	        File file = new File(path);
+          //文件是否存在
+	        if (!file.exists()){
+	            throw new FileNotFoundException("file with path: " + file.getAbsolutePath() + " was not found.");
+	        }
+          //spring中文件复制方法
+	        byte[] document = FileCopyUtils.copyToByteArray(file);
+          //spring headers类
+	        HttpHeaders header = new HttpHeaders();
+	        header.setContentType(new MediaType("application", "octet-stream"));
+	        header.set("Content-Disposition", "attachment; filename=" + file.getName());
+	        header.setContentLength(document.length);
+          
+	        return new HttpEntity<byte[]>(document, header);
+	    }
