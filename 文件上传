@@ -1,0 +1,33 @@
+ @RequestMapping(value = "upload", method = RequestMethod.POST )
+	    public @ResponseBody String upload(@RequestParam MultipartFile[] file) {
+	    	//返回fileupload表id字符串
+	    	StringBuilder sb = new StringBuilder();
+	    	
+	    	//判断上传文件是否为空
+	    	if (file !=null && file.length > 0) {
+	    		//循环遍历上传文件数组
+	    		for (MultipartFile File : file) {
+					if (!File.isEmpty()) {
+						//获取上传文件名称
+						String originalFilename = File.getOriginalFilename();
+						
+						//获取文件后缀名
+						int lastIndexOf = originalFilename.lastIndexOf(".");
+						String substring = originalFilename.substring(lastIndexOf);
+						
+						//获取上传文件地址
+						String address = filePath + "\\" + System.currentTimeMillis() + substring;
+						
+				    	
+				    	try {
+				    		//获取文件输入流
+					    	InputStream inputStream = File.getInputStream();
+					    	//commons io 读取文件
+					    	FileUtils.copyInputStreamToFile(inputStream, new File(address));
+				    	} catch(Exception e) {
+				    		e.printStackTrace();
+				    	}	    	
+					}
+				}	
+			}	
+	    }
