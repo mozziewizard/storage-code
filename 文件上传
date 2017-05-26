@@ -42,3 +42,13 @@ springmvc 配置文件设置
 				}	
 			}	
 	    }
+
+<!--文件上传配合orcale序列自增返回主键id设置 --> 
+<insert id="fileUpload" parameterType="java.util.Map">
+		<selectKey keyProperty="名称" order="BEFORE|AFTER" resultType="java.lang.Long">
+		//CURRVAL 返回当前id
+            select seq_.CURRVAL as fileId FROM dual
+        </selectKey>
+	//nextval序列增长
+        insert into FILE_UPLOAD values(seq_file.NEXTVAL,#{},#{},#{})
+</insert>
