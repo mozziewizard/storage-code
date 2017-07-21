@@ -1,0 +1,14 @@
+将 /dev/hda1 用唯读模式挂在 /mnt 之下
+#mount -o ro /dev/hda1 /mnt
+
+启动NFS服务器
+service nfs start
+
+NFS 配置 参见服务端
+https://wiki.archlinux.org/index.php/NFS_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)#.E9.80.9A.E8.BF.87_.2Fetc.2Ffstab_.E6.8C.82.E8.BD.BD
+
+修改 /etc/exports 设置共享目录
+/srv/nfs4/ 192.168.1.0/24(rw,fsid=root,no_subtree_check)
+
+linux 共享远程目录方法及案例
+http://ycgit.blog.51cto.com/8590215/1662841
