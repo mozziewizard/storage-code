@@ -1,0 +1,47 @@
+ @RequestMapping("/download")
+    public void sftpDownload(HttpServletResponse resp,String fileName) throws JSchException {
+
+            ChannelSftp channel = null;
+            BufferedInputStream bis;
+            byte[] buffer = new byte[1024];
+            //String fileName = "EC3E1D765E7580E81C7C2EC10C41597.pdf";
+            //设置响应头
+            resp.setHeader("Content-Type","application/octet-stream");
+            resp.setHeader("Content-Disposition","attachment;filename=" + fileName);
+        try {
+            //获取ChannelSftp
+            channel = SFTPUtils.getChannel(user, password, host, port);
+
+            //文件下载
+            //将stfp上文件转换成InputStream流
+            InputStream is = channel.get(sftpaddress + fileName);
+            bis = new BufferedInputStream(is);
+            int readCount;
+            while ((readCount = bis.read(buffer)) > 0) {
+                resp.getOutputStream().write(buffer, 0, readCount);
+            }
+            bis.close();
+
+        } catch (Exception e) {
+
+        } finally {
+
+            try {
+                //关闭资源
+                channel.disconnect();
+                SFTPUtils.closeChannel();
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+
+            }
+        }
+    }
+    
+    
+    
+    
+    工具类
+    
+    
